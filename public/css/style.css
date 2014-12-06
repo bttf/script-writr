@@ -1,0 +1,19 @@
+body {
+  padding: 0 4em;
+  font: 14px "Open Sans", Helvetica, Arial, sans-serif; }
+
+a {
+  color: #00B7FF; }
+
+hr {
+  border: 1px #ccc solid; }
+
+.logo {
+  font-family: 'Rokkitt', serif; }
+
+#editor {
+  height: 300px;
+  border: 1px #ccc solid;
+  box-shadow: 0 0 10px #aaa; }
+
+/*# sourceMappingURL=style.css.map */
