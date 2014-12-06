@@ -24,6 +24,13 @@ module.exports = function (grunt) {
         }
       }
     },
+    coffee: {
+      compile: {
+        files: {
+          'public/js/screen-writr.js': 'public/js/screen-writr.coffee',
+        }
+      }
+    },
     watch: {
       options: {
         nospawn: true,
@@ -38,7 +45,8 @@ module.exports = function (grunt) {
         tasks: ['develop', 'delayed-livereload']
       },
       js: {
-        files: ['public/js/*.js'],
+        files: ['public/js/*.coffee'],
+        tasks: ['coffee'],
         options: {
           livereload: reloadPort
         }
