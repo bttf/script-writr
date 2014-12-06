@@ -1,2 +1,0 @@
-# coffee 
-number = 42

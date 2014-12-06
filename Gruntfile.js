@@ -27,7 +27,7 @@ module.exports = function (grunt) {
     coffee: {
       compile: {
         files: {
-          'public/js/screen-writr.js': 'public/js/screen-writr.coffee',
+          'public/js/script-writr.js': 'public/js/script-writr.coffee',
         }
       }
     },

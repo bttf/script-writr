@@ -5,10 +5,11 @@ html(lang='en')
     meta(name='viewport', content='width=device-width')
     title= title
     block css
-      link(rel='stylesheet', href='/components/bootstrap/dist/css/bootstarp.min.css')
+      link(rel='stylesheet', href='/components/bootstrap/dist/css/bootstrap.min.css')
       link(rel='stylesheet', href='/css/style.css')
       link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Open+Sans|Rokkitt:400,700')
     block js
+      script(src='/components/jquery/dist/jquery.js')
       script(src='http://localhost:35729/livereload.js')
   body
     block content
