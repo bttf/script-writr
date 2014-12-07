@@ -6,12 +6,19 @@
     }
   });
 
-  requirejs(['quill', 'script-writr'], function(quill, sw) {
-    var editor;
+  requirejs(['quill', 'script-writr'], function(quill, scriptWritr) {
+    var editor, sw;
     editor = new quill('#editor');
     editor.focus();
-    editor.on('text-change', function(delta, source) {});
-    return editor.on('select-change', function(range) {});
+    sw = new scriptWritr();
+    editor.on('text-change', function(delta, source) {
+      sw.update();
+      return sw.render();
+    });
+    return editor.on('select-change', function(range) {
+      sw.update();
+      return sw.render();
+    });
   });
 
 }).call(this);

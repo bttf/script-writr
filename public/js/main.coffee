@@ -5,12 +5,16 @@ requirejs.config {
   }
 }
 
-requirejs ['quill', 'script-writr'], (quill, sw) ->
+requirejs ['quill', 'script-writr'], (quill, scriptWritr) ->
   editor = new quill '#editor'
   editor.focus()
 
-  editor.on 'text-change', (delta, source) ->
-    # some shit
+  sw = new scriptWritr()
 
+  editor.on 'text-change', (delta, source) ->
+    sw.update()
+    sw.render()
+    
   editor.on 'select-change', (range) ->
-    # some other shit
+    sw.update()
+    sw.render()
