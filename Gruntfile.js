@@ -15,8 +15,7 @@ module.exports = function (grunt) {
     develop: {
       server: {
         file: 'bin/www'
-      }
-    },
+      } },
     sass: {
       dist: {
         files: {
@@ -25,11 +24,14 @@ module.exports = function (grunt) {
       }
     },
     coffee: {
-      compile: {
-        files: {
-          'public/js/script-writr.js': 'public/js/script-writr.coffee',
-        }
+      glob_to_multiple: {
+        expand: true,
+        cwd: 'public/js',
+        src: ['**/*.coffee'],
+        dest: 'public/js',
+        ext: '.js'
       }
+
     },
     watch: {
       options: {
@@ -45,7 +47,7 @@ module.exports = function (grunt) {
         tasks: ['develop', 'delayed-livereload']
       },
       js: {
-        files: ['public/js/*.coffee'],
+        files: ['public/js/**/*.coffee'],
         tasks: ['coffee'],
         options: {
           livereload: reloadPort
@@ -89,6 +91,7 @@ module.exports = function (grunt) {
   });
   
   grunt.registerTask('default', [
+    'coffee',
     'sass',
     'develop', 
     'watch'

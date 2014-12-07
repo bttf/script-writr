@@ -1,5 +1,12 @@
 (function() {
-  requirejs(['components/quill/dist/quill.min.js'], function(quill) {
+  requirejs.config({
+    baseUrl: 'js/lib',
+    paths: {
+      quill: '/components/quill/dist/quill.min'
+    }
+  });
+
+  requirejs(['quill', 'script-writr'], function(quill, sw) {
     var editor;
     editor = new quill('#editor');
     editor.focus();
