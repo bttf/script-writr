@@ -10,14 +10,14 @@
     var editor, sw;
     editor = new quill('#editor');
     editor.focus();
-    sw = new scriptWritr();
+    sw = new scriptWritr(editor);
     editor.on('text-change', function(delta, source) {
-      sw.update();
-      return sw.render();
+      sw.update('text', delta, source);
+      return sw.render('text', delta, source);
     });
     return editor.on('select-change', function(range) {
-      sw.update();
-      return sw.render();
+      sw.update('select', range);
+      return sw.render('select', range);
     });
   });
 
