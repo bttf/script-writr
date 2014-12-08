@@ -1,5 +1,5 @@
 (function() {
-  define(function() {
+  define(['script-definr', 'Container'], function(scriptDefinr, container) {
     var ScriptWritr, getNumOfIndices, getTd;
     getTd = function(className) {
       return document.getElementsByClassName(className)[0];
@@ -25,13 +25,25 @@
       function ScriptWritr(editor) {
         this.editor = editor;
         this.mode = 'title';
+        this.sd = new scriptDefinr(this.editor);
+        this.titleCont = new container(this.editor);
+        this.creditsCont = new container(this.editor);
+        this.sluglineCont = new container(this.editor);
+        this.actionCont = new container(this.editor);
+        this.dialogueCont = new container(this.editor);
         window.editor = this.editor;
       }
 
-      ScriptWritr.prototype.update = function() {
-        this.defineMode();
-        if (this.mode === 'title') {
-          return this.enforceTitle();
+      ScriptWritr.prototype.update = function(changeType, content, source) {
+        var delta;
+        if (changeType === 'text' && content) {
+          delta = content.ops;
+          content = this.editor.getContents().ops[0].insert;
+          this.titleCont.update(content, delta);
+          this.creditsCont.update(content, delta);
+          this.sluglineCont.update(content, delta);
+          this.actionCont.update(content, delta);
+          return this.dialogueCont.update(content, delta);
         }
       };
 
@@ -46,10 +58,6 @@
         this.debug.updateNewLineCount(this.editor);
         this.debug.updateMode();
       };
-
-      ScriptWritr.prototype.defineMode = function() {};
-
-      ScriptWritr.prototype.enforceTitle = function() {};
 
       ScriptWritr.prototype.previousInsert = function(content) {
         var obj, objs, _i, _len, _results;
@@ -66,7 +74,15 @@
         return _results;
       };
 
+      ScriptWritr.prototype.numOfNewLines = function() {
+        return getNumOfIndices(this.getInsert(), '\n');
+      };
+
       ScriptWritr.prototype.updateContent = function() {};
+
+      ScriptWritr.prototype.getInsert = function() {
+        return this.editor.getContents().ops[0].insert;
+      };
 
       ScriptWritr.prototype.debug = {
         mode: 'title',
