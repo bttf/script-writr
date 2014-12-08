@@ -24,23 +24,52 @@
     return ScriptWritr = (function() {
       function ScriptWritr(editor) {
         this.editor = editor;
+        this.mode = 'title';
+        window.editor = this.editor;
       }
 
       ScriptWritr.prototype.update = function() {
-        return console.log('debug, sw, update');
+        this.defineMode();
+        if (this.mode === 'title') {
+          return this.enforceTitle();
+        }
       };
 
       ScriptWritr.prototype.render = function(changeType, content, source) {
+        if (changeType === 'text' && content) {
+          this.debug.updateDelta(content);
+          this.previousInsert(content);
+        }
         this.debug.updateGetLength(this.editor);
         this.debug.updateGetContents(this.editor);
         this.debug.updateGetSelection(this.editor);
         this.debug.updateNewLineCount(this.editor);
-        if (changeType === 'text' && content) {
-          this.debug.updateDelta(content);
-        }
+        this.debug.updateMode();
       };
 
+      ScriptWritr.prototype.defineMode = function() {};
+
+      ScriptWritr.prototype.enforceTitle = function() {};
+
+      ScriptWritr.prototype.previousInsert = function(content) {
+        var obj, objs, _i, _len, _results;
+        objs = content.ops;
+        _results = [];
+        for (_i = 0, _len = objs.length; _i < _len; _i++) {
+          obj = objs[_i];
+          if (obj['insert']) {
+            _results.push(getTd('previousInsert').innerHTML = obj['insert']);
+          } else {
+            _results.push(void 0);
+          }
+        }
+        return _results;
+      };
+
+      ScriptWritr.prototype.updateContent = function() {};
+
       ScriptWritr.prototype.debug = {
+        mode: 'title',
         updateGetLength: function(e) {
           getTd('getLength').innerHTML = e.getLength();
         },
@@ -57,7 +86,9 @@
             rangeEnd.innerHTML = range.end;
           }
         },
-        updateMode: function() {},
+        updateMode: function() {
+          getTd('currentMode').innerHTML = this.mode;
+        },
         updateNewLineCount: function(e) {
           getTd('newLineCount').innerHTML = getNumOfIndices(e.getContents().ops[0].insert, '\n');
         },

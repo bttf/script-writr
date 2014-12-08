@@ -18,20 +18,42 @@ define () ->
 
   class ScriptWritr
     constructor: (@editor) ->
+      @mode = 'title'
+      window.editor = @editor
 
     update: () ->
-     console.log 'debug, sw, update'
+      @defineMode()
+      if @mode == 'title'
+        @enforceTitle()
 
     render: (changeType, content, source) ->
+
+      # debug stuff ######################
+      if changeType == 'text' and content
+        @debug.updateDelta content
+        @previousInsert content
+
       @debug.updateGetLength @editor
       @debug.updateGetContents @editor
       @debug.updateGetSelection @editor
       @debug.updateNewLineCount @editor
-      if changeType == 'text' and content
-        @debug.updateDelta content
+      @debug.updateMode()
       return
 
+    defineMode: () ->
+
+    enforceTitle: () ->
+
+    previousInsert: (content) ->
+      objs = content.ops
+      for obj in objs
+        if obj['insert']
+          getTd('previousInsert').innerHTML = obj['insert']
+
+    updateContent: () ->
+
     debug:
+      mode: 'title'
       updateGetLength: (e) ->
         getTd('getLength').innerHTML = e.getLength()
         return
@@ -47,6 +69,8 @@ define () ->
           rangeEnd.innerHTML = range.end
         return
       updateMode: () ->
+        getTd('currentMode').innerHTML = @mode
+        return
       updateNewLineCount: (e) ->
         getTd('newLineCount').innerHTML = getNumOfIndices e.getContents().ops[0].insert, '\n'
         return

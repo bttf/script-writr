@@ -10,6 +10,8 @@ requirejs ['quill', 'script-writr'], (quill, scriptWritr) ->
   editor.focus()
 
   sw = new scriptWritr(editor)
+  sw.update()
+  sw.render()
 
   editor.on 'text-change', (delta, source) ->
     sw.update 'text', delta, source

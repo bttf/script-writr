@@ -11,6 +11,8 @@
     editor = new quill('#editor');
     editor.focus();
     sw = new scriptWritr(editor);
+    sw.update();
+    sw.render();
     editor.on('text-change', function(delta, source) {
       sw.update('text', delta, source);
       return sw.render('text', delta, source);
